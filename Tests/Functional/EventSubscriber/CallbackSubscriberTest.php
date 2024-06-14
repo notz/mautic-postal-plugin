@@ -15,7 +15,7 @@ class CallbackSubscriberTest extends MauticMysqlTestCase
 {
     protected function setUp(): void
     {
-        if ('testPostalTransportNotConfigured' !== $this->name()) {
+        if ('testPostalTransportNotConfigured' !== $this->getName()) {
             $this->configParams['mailer_dsn'] = 'mautic+smtp://:user@host:25';
         }
 
@@ -40,8 +40,8 @@ class CallbackSubscriberTest extends MauticMysqlTestCase
         $now          = new \DateTime();
         $nowFormatted = $now->format(DateTimeHelper::FORMAT_DB);
 
-        $this->client()->request(Request::METHOD_POST, '/mailer/callback', $parameters);
-        $response = $this->client()->getResponse();
+        $this->client->request(Request::METHOD_POST, '/mailer/callback', $parameters);
+        $response = $this->client->getResponse();
         Assert::assertSame('Callback processed', $response->getContent());
         Assert::assertSame(200, $response->getStatusCode());
 
