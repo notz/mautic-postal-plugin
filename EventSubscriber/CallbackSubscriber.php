@@ -15,6 +15,7 @@ use Symfony\Component\Mailer\Transport\Dsn;
 class CallbackSubscriber implements EventSubscriberInterface
 {
     public function __construct(private LoggerInterface $logger, private TransportCallback $transportCallback, private CoreParametersHelper $coreParametersHelper)
+    {
     }
 
     /**
