@@ -96,7 +96,7 @@ class CallbackSubscriberTest extends MauticMysqlTestCase
                         'subject'     => 'Welcome to AwesomeApp',
                         'timestamp'   => 1477945177.12994,
                         'spam_status' => 'NotSpam',
-                        'tag'         => 'welcome'
+                        'tag'         => 'welcome',
                     ],
                 ],
             ],
@@ -122,7 +122,7 @@ class CallbackSubscriberTest extends MauticMysqlTestCase
                         'subject'     => 'Welcome to AwesomeApp',
                         'timestamp'   => 1477945177.12994,
                         'spam_status' => 'NotSpam',
-                        'tag'         => 'welcome'
+                        'tag'         => 'welcome',
                     ],
                     'bounce' => [
                         'id'          => '12345',
@@ -133,7 +133,7 @@ class CallbackSubscriberTest extends MauticMysqlTestCase
                         'subject'     => 'Delivery Error',
                         'timestamp'   => 1477945179.12994,
                         'spam_status' => 'NotSpam',
-                        'tag'         => null
+                        'tag'         => null,
                     ],
                 ],
             ],
