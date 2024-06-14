@@ -11,6 +11,6 @@ return function (ContainerConfigurator $configurator) {
         ->autowire()
         ->autoconfigure();
 
-    $services->load('MauticPlugin\\MauticPostalBundle\\', '../')
+    $services->load('MauticPlugin\\PostalBundle\\', '../')
         ->exclude('../{Config}');
 };
