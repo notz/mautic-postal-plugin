@@ -32,7 +32,7 @@ class CallbackSubscriberTest extends MauticMysqlTestCase
 
     public function testPostalCallbackProcessWithMessageFailed(): void
     {
-        $parameters = $this->getFailedParameters();
+        $parameters = $this->getDeliveryFailedParameters();
 
         $contact = $this->createContact('test@example.com');
         $this->em->flush();
@@ -47,7 +47,7 @@ class CallbackSubscriberTest extends MauticMysqlTestCase
 
         $dnc = $contact->getDoNotContact()->current();
         Assert::assertSame('email', $dnc->getChannel());
-        Assert::assertSame('Hard bounce', $dnc->getComments());
+        Assert::assertSame('Delivery failed', $dnc->getComments());
         Assert::assertSame($nowFormatted, $dnc->getDateAdded()->format(DateTimeHelper::FORMAT_DB));
         Assert::assertSame($contact, $dnc->getLead());
         Assert::assertSame(DoNotContact::BOUNCED, $dnc->getReason());
@@ -70,7 +70,7 @@ class CallbackSubscriberTest extends MauticMysqlTestCase
 
         $dnc = $contact->getDoNotContact()->current();
         Assert::assertSame('email', $dnc->getChannel());
-        Assert::assertSame('Delivery failed', $dnc->getComments());
+        Assert::assertSame('Hard bounce', $dnc->getComments());
         Assert::assertSame($nowFormatted, $dnc->getDateAdded()->format(DateTimeHelper::FORMAT_DB));
         Assert::assertSame($contact, $dnc->getLead());
         Assert::assertSame(DoNotContact::BOUNCED, $dnc->getReason());
@@ -79,24 +79,22 @@ class CallbackSubscriberTest extends MauticMysqlTestCase
     /**
      * @return array<mixed>
      */
-    private function getFailedParameters(): array
+    private function getDeliveryFailedParameters(): array
     {
         return [
-            [
-                'event'   => 'MessageFailed',
-                'payload' => [
-                    'message' => [
-                        'id'          => '12345',
-                        'token'       => 'abcdef123',
-                        'direction'   => 'outgoing',
-                        'message_id'  => '5817a64332f44_4ec93ff59e79d154565eb@app34.mail',
-                        'to'          => 'test@example.com',
-                        'from'        => 'sales@awesomeapp.com',
-                        'subject'     => 'Welcome to AwesomeApp',
-                        'timestamp'   => 1477945177.12994,
-                        'spam_status' => 'NotSpam',
-                        'tag'         => 'welcome',
-                    ],
+            'event'   => 'MessageDeliveryFailed',
+            'payload' => [
+                'message' => [
+                    'id'          => '12345',
+                    'token'       => 'abcdef123',
+                    'direction'   => 'outgoing',
+                    'message_id'  => '5817a64332f44_4ec93ff59e79d154565eb@app34.mail',
+                    'to'          => 'test@example.com',
+                    'from'        => 'sales@awesomeapp.com',
+                    'subject'     => 'Welcome to AwesomeApp',
+                    'timestamp'   => 1477945177.12994,
+                    'spam_status' => 'NotSpam',
+                    'tag'         => 'welcome',
                 ],
             ],
         ];
@@ -108,32 +106,30 @@ class CallbackSubscriberTest extends MauticMysqlTestCase
     private function getBouncedParameters(): array
     {
         return [
-            [
-                'event'   => 'MessageBounced',
-                'payload' => [
-                    'original_message' => [
-                        'id'          => '12345',
-                        'token'       => 'abcdef123',
-                        'direction'   => 'outgoing',
-                        'message_id'  => '5817a64332f44_4ec93ff59e79d154565eb@app34.mail',
-                        'to'          => 'test@example.com',
-                        'from'        => 'sales@awesomeapp.com',
-                        'subject'     => 'Welcome to AwesomeApp',
-                        'timestamp'   => 1477945177.12994,
-                        'spam_status' => 'NotSpam',
-                        'tag'         => 'welcome',
-                    ],
-                    'bounce' => [
-                        'id'          => '12345',
-                        'token'       => 'abcdef124',
-                        'direction'   => 'incoming',
-                        'to'          => 'abcde@psrp.postal.yourdomain.com',
-                        'from'        => 'postmaster@someserver.com',
-                        'subject'     => 'Delivery Error',
-                        'timestamp'   => 1477945179.12994,
-                        'spam_status' => 'NotSpam',
-                        'tag'         => null,
-                    ],
+            'event'   => 'MessageBounced',
+            'payload' => [
+                'original_message' => [
+                    'id'          => '12345',
+                    'token'       => 'abcdef123',
+                    'direction'   => 'outgoing',
+                    'message_id'  => '5817a64332f44_4ec93ff59e79d154565eb@app34.mail',
+                    'to'          => 'test@example.com',
+                    'from'        => 'sales@awesomeapp.com',
+                    'subject'     => 'Welcome to AwesomeApp',
+                    'timestamp'   => 1477945177.12994,
+                    'spam_status' => 'NotSpam',
+                    'tag'         => 'welcome',
+                ],
+                'bounce' => [
+                    'id'          => '12345',
+                    'token'       => 'abcdef124',
+                    'direction'   => 'incoming',
+                    'to'          => 'abcde@psrp.postal.yourdomain.com',
+                    'from'        => 'postmaster@someserver.com',
+                    'subject'     => 'Delivery Error',
+                    'timestamp'   => 1477945179.12994,
+                    'spam_status' => 'NotSpam',
+                    'tag'         => null,
                 ],
             ],
         ];
