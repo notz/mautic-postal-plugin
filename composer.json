@@ -1,0 +1,43 @@
+{
+    "name": "notz/mautic-postal-plugin",
+    "description": "Postal Mail Server Plugin for Mautic",
+    "type": "mautic-plugin",
+    "license": "GPL-3.0-or-later",
+    "keywords": [
+        "mautic",
+        "plugin",
+        "integration",
+        "postal mail server"
+    ],
+    "homepage": "https://github.com/notz",
+    "authors": [
+        {
+            "name": "Gernot Pansy",
+            "email": "gernot@pansy.at"
+        }
+    ],
+    "extra": {
+        "install-directory-name": "PostalBundle"
+    },
+    "require": {
+        "php": ">=8.0.0",
+        "mautic/core-lib": "^5.0"
+    },
+    "minimum-stability": "dev",
+    "scripts": {
+        "test": [
+          "@phpunit",
+          "@csfixer",
+          "@phpstan"
+        ],
+        "quicktest": [
+          "@unit"
+        ],
+        "phpunit": "../../bin/phpunit -d --bootstrap ../../vendor/autoload.php --configuration phpunit.xml --fail-on-warning --testsuite=all",
+        "functional": "../../bin/phpunit -d --bootstrap ../../vendor/autoload.php --configuration phpunit.xml --fail-on-warning --testsuite=functional",
+        "coverage": "../../bin/phpunit -d --bootstrap ../../vendor/autoload.php --configuration phpunit.xml --fail-on-warning --testsuite=all --coverage-text --coverage-html=Tests/Coverage",
+        "csfixer": "../../bin/php-cs-fixer fix . -v --dry-run --diff --using-cache=no --config=../../.php-cs-fixer.php",
+        "fixcs": "../../bin/php-cs-fixer fix . -v --using-cache=no --config=../../.php-cs-fixer.php",
+        "phpstan": "[ ! -f ../../var/cache/test/AppKernelTestDebugContainer.xml ] && (echo 'Building test cache ...'; APP_ENV=test APP_DEBUG=1 ../../bin/console > /dev/null 2>&1); php -d memory_limit=4G ../../bin/phpstan analyse ."
+    }
+}
