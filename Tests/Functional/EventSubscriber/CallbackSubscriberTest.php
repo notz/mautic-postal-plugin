@@ -16,7 +16,7 @@ class CallbackSubscriberTest extends MauticMysqlTestCase
     protected function setUp(): void
     {
         if ('testPostalTransportNotConfigured' !== $this->getName()) {
-            $this->configParams['mailer_dsn'] = 'mautic+smtp://:user@host:25';
+            $this->configParams['mailer_dsn'] = 'smtp://:user@host:25';
         }
 
         parent::setUp();
